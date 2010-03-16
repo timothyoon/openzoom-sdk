@@ -40,6 +40,7 @@ package org.openzoom.flash.scene
 {
 
 import flash.display.DisplayObject;
+import flash.display.DisplayObjectContainer;
 import flash.display.Graphics;
 import flash.display.Shape;
 import flash.display.Sprite;
@@ -181,6 +182,11 @@ public class MultiScaleScene extends Sprite
     public function get targetCoordinateSpace():DisplayObject
     {
         return this
+    }
+    
+    public function get sceneContainer():DisplayObjectContainer
+    {
+    	return this;
     }
 
     //----------------------------------

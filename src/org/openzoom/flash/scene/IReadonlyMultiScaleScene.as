@@ -39,9 +39,9 @@
 package org.openzoom.flash.scene
 {
 
-import flash.display.DisplayObject
-import flash.events.IEventDispatcher
-
+import flash.display.DisplayObject;
+import flash.display.DisplayObjectContainer;
+import flash.events.IEventDispatcher;
 /**
  * Dispatched when sceneWidth or sceneHeight are changed.
  */
@@ -84,6 +84,9 @@ public interface IReadonlyMultiScaleScene extends IEventDispatcher
      * @copy org.openzoom.flash.scene.IMultiScaleScene#targetCoordinateSpace
      */
     function get targetCoordinateSpace():DisplayObject
+    
+    
+    function get sceneContainer():DisplayObjectContainer
 }
 
 }

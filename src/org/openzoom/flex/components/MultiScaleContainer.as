@@ -65,6 +65,7 @@ import org.openzoom.flash.viewport.IViewportConstraint;
 import org.openzoom.flash.viewport.IViewportController;
 import org.openzoom.flash.viewport.IViewportTransformer;
 import org.openzoom.flash.viewport.NormalizedViewport;
+import org.openzoom.flex.scene.UIMultiScaleScene;
 
 use namespace openzoom_internal;
 
@@ -129,7 +130,7 @@ public final class MultiScaleContainer extends UIComponent
 //    //  scene
 //    //----------------------------------
 //
-    private var _scene:MultiScaleScene
+    private var _scene:UIMultiScaleScene
 
    ;[Bindable(event="sceneChanged")]
 
@@ -504,6 +505,11 @@ public final class MultiScaleContainer extends UIComponent
             contentMask.height = unscaledHeight
         }
 
+		updateTarget();
+	}
+    
+    private function updateTarget():void
+    {
         var vp:INormalizedViewport = _viewport
         var targetWidth:Number = vp.viewportWidth / vp.width
         var targetHeight:Number = vp.viewportHeight / vp.height
@@ -623,7 +629,7 @@ public final class MultiScaleContainer extends UIComponent
      */
     private function createScene():void
     {
-        _scene = new MultiScaleScene(DEFAULT_SCENE_WIDTH,
+        _scene = new UIMultiScaleScene(DEFAULT_SCENE_WIDTH,
                                      DEFAULT_SCENE_HEIGHT,
                                      DEFAULT_SCENE_BACKGROUND_COLOR,
                                      DEFAULT_SCENE_BACKGROUND_ALPHA)
@@ -713,6 +719,7 @@ public final class MultiScaleContainer extends UIComponent
 //      trace("ViewportEvent.TRANSFORM_UPDATE")
 
         // TODO: Test…
+		updateTarget();
         invalidateDisplayList()
     }
 

@@ -206,7 +206,7 @@ public final class ImagePyramidRenderManager implements IDisposable
 		var sceneHeight:Number = scene.sceneHeight
 
 		// Get scene bounds of renderer
-		var sceneBounds:Rectangle = renderer.getBounds(scene.targetCoordinateSpace)
+		var sceneBounds:Rectangle = renderer.getBounds(scene.sceneContainer)
 		
         // Normalize scene bounds
         sceneBounds.x /= sceneWidth
