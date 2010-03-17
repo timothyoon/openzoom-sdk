@@ -22,6 +22,7 @@
 //
 //  Contributor(s):
 //    Daniel Gasienica <daniel@gasienica.ch>
+//    Timothy Oon <timothyoon@gmail.com>
 //
 //  Alternatively, the contents of this file may be used under the terms of
 //  either the GNU General Public License Version 3 or later (the "GPL"), or
@@ -47,6 +48,7 @@ import flash.events.Event;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 
+import mx.automation.IAutomationObject;
 import mx.core.UIComponent;
 
 import org.openzoom.flash.core.openzoom_internal;
@@ -59,7 +61,6 @@ import org.openzoom.flash.renderers.images.ImagePyramidRenderManager;
 import org.openzoom.flash.renderers.images.ImagePyramidRenderer;
 import org.openzoom.flash.scene.IMultiScaleScene;
 import org.openzoom.flash.scene.IReadonlyMultiScaleScene;
-import org.openzoom.flash.scene.MultiScaleScene;
 import org.openzoom.flash.viewport.INormalizedViewport;
 import org.openzoom.flash.viewport.IViewportConstraint;
 import org.openzoom.flash.viewport.IViewportController;
@@ -533,6 +534,16 @@ public final class MultiScaleContainer extends UIComponent
     {
         return _scene ? _scene.numChildren : 0
     }
+    
+    override public function get numAutomationChildren():int
+    {
+    	return getAutomationChildren().length;
+    }
+    
+    override public function get automationName():String
+    {
+    	return "MultiScaleContainer-" + id;
+    }
 
     //--------------------------------------------------------------------------
     //
@@ -616,6 +627,11 @@ public final class MultiScaleContainer extends UIComponent
                                             index2:int):void
     {
         _scene.swapChildrenAt(index1, index2)
+    }
+    
+    override public function getAutomationChildAt(index:int):IAutomationObject
+    {
+    	return IAutomationObject(getAutomationChildren()[index]);
     }
 
     //--------------------------------------------------------------------------
@@ -1011,6 +1027,20 @@ public final class MultiScaleContainer extends UIComponent
     public function sceneToLocal(point:Point):Point
     {
         return viewport.sceneToLocal(point)
+    }
+    
+    private function getAutomationChildren():Array
+    {
+    	var arr:Array = new Array();
+    	var len:int = numChildren;
+    	for (var i:int = 0; i < len; i++)
+    	{
+    		var child:DisplayObject = getChildAt(i);
+    		if (child is IAutomationObject)
+    			arr.push(child);
+    	}
+    	
+    	return arr;
     }
 }
 

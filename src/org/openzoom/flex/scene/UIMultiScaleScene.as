@@ -21,7 +21,7 @@
 //  the Initial Developer. All Rights Reserved.
 //
 //  Contributor(s):
-//    Daniel Gasienica <daniel@gasienica.ch>
+//    Timothy Oon <timothyoon@gmail.com>
 //
 //  Alternatively, the contents of this file may be used under the terms of
 //  either the GNU General Public License Version 3 or later (the "GPL"), or
@@ -50,9 +50,15 @@ package org.openzoom.flex.scene
 
 	public class UIMultiScaleScene extends UIComponent implements IMultiScaleScene, IReadonlyMultiScaleScene
 	{
+///******************************************************************
+// Private Members
+//*******************************************************************
 		private var _sceneProxy:SceneProxy;
 		private var _sceneContainer:UIComponent;
-		
+
+///******************************************************************
+// Constructor
+//*******************************************************************
 		public function UIMultiScaleScene(w:Number,
                                     h:Number,
                                     backgroundColor:uint=0x000000,
@@ -60,8 +66,10 @@ package org.openzoom.flex.scene
 		{
 			super();
 			
+			// Setup the scene's target coordinate space sprite.
 			createSceneProxy(w, h, backgroundColor, backgroundAlpha);
 			
+			// Create the UIComponent that will hold any children.
 			_sceneContainer = new UIComponent();
 			_sceneContainer.x = 0;
 			_sceneContainer.y = 0;
@@ -69,7 +77,18 @@ package org.openzoom.flex.scene
 			sceneWidth = w;
 			sceneHeight = h;
 		}
-		
+
+///******************************************************************
+// Private Methods
+//*******************************************************************
+		/**
+		 * Creates the SceneProxy. 
+		 * @param w the width of the proxy.
+		 * @param h the height of the proxy
+		 * @param colour
+		 * @param alpha
+		 * 
+		 */		
 		private function createSceneProxy(w:Number, h:Number, colour:uint, alpha:Number):void
 		{
 			_sceneProxy = new SceneProxy();
@@ -80,17 +99,30 @@ package org.openzoom.flex.scene
 			_sceneProxy.addEventListener(SceneProxyChangeEvent.SCENE_PROXY_PROPERTY_CHANGE, sceneProxyChange);
 		}
 		
+		/**
+		 * Handles any transforms applied to the SceneProxy and applies the
+		 * exquuvalent transform to the sceneContainer 
+		 * @param evt
+		 * 
+		 */		
 		private function sceneProxyChange(evt:SceneProxyChangeEvent):void
 		{
-			_sceneContainer.x = evt.newX;
-			_sceneContainer.y = evt.newY;
-			if (evt.newWidth != 0)
-				_sceneContainer.scaleX = evt.newWidth / sceneWidth;
+			_sceneContainer.x = evt.x;
+			_sceneContainer.y = evt.y;
+			if (evt.width != 0)
+				_sceneContainer.scaleX = evt.width / sceneWidth;
 			
-			if (evt.newHeight != 0)
-				_sceneContainer.scaleY = evt.newHeight / sceneHeight;
+			if (evt.height != 0)
+				_sceneContainer.scaleY = evt.height / sceneHeight;
 		}
-		
+
+///******************************************************************
+// Public Methods
+//*******************************************************************
+		/**
+		 * Cleanup method 
+		 * 
+		 */		
 		public function dispose():void
 		{
 			var child:DisplayObject;
@@ -113,7 +145,10 @@ package org.openzoom.flex.scene
 			_sceneContainer = null;
 			_sceneProxy = null;
 		}
-		
+
+///******************************************************************
+// Getters & Setters
+//*******************************************************************
 		public function get sceneWidth():Number
 		{
 			return width;
@@ -139,6 +174,14 @@ package org.openzoom.flex.scene
 			return _sceneProxy;
 		}
 		
+		public function get sceneContainer():DisplayObjectContainer
+		{
+			return _sceneContainer;
+		}
+
+///******************************************************************
+// Override Methods
+//*******************************************************************
 		override protected function createChildren():void
 		{
 			super.createChildren();
@@ -199,11 +242,6 @@ package org.openzoom.flex.scene
 		override public function swapChildrenAt(index1:int, index2:int):void
 		{
 			_sceneContainer.swapChildrenAt(index1, index2);
-		}
-		
-		public function get sceneContainer():DisplayObjectContainer
-		{
-			return _sceneContainer;
 		}
 	}
 }
