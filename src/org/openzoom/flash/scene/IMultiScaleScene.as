@@ -40,6 +40,7 @@ package org.openzoom.flash.scene
 {
 
 import flash.display.DisplayObject;
+import flash.display.DisplayObjectContainer;
 import flash.events.IEventDispatcher;
 
 import org.openzoom.flash.utils.IDisposable;
@@ -92,6 +93,8 @@ public interface IMultiScaleScene extends IDisposable,
      * they are contained in.
      */
     function get targetCoordinateSpace():DisplayObject
+    
+    function get sceneContainer():DisplayObjectContainer
 }
 
 }
