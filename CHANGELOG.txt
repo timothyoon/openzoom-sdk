@@ -1,6 +1,33 @@
-- Fixed bug in MultiScaleImage component for both Flash and Flex where setting
-  the source property with the same value twice caused the image to disappear.
-  -- Thanks to Claudius for reporting this.
+
+    ____              ____
+   / __ \___  ___ ___/_  / ___  ___  __ _
+  / /_/ / _ \/ -_) _ \/ /_/ _ \/ _ \/  ' \
+  \____/ .__/\__/_//_/___/\___/\___/_/_/_/
+      /_/
+
+
+Version 0.4.3 - March 20, 2010
+==============================
+
+  - Added LicenseUtil for adding "About OpenZoom..." context menu item which
+    links to http://openzoom.org as required by the licensing terms of the
+    OpenZoom SDK.
+
+  - Added new descriptor (org.openzoom.flash.descriptors.iip.IIPImageDescriptor)
+    for the IIP image server (http://iipimage.sourceforge.net).
+
+  - Fixed ImagePyramidRenderer hashing function.
+  
+  - Added option to choose rendering style in BingMapsDescriptor (aerial, road).
+  
+  - Renamed VirtualEarthDescriptor to BingMapsDescriptor.
+  
+  - Added string formatting utility (org.openzoom.flash.utils.string.format)
+    similar to the one found in .NET.
+
+  - Fixed bug in MultiScaleImage component for both Flash and Flex where setting
+    the source property with the same value twice caused the image to disappear.
+    -- Thanks to Claudius C. for reporting this.
 
 Version 0.4.2.1 - September 4, 2009
 ===================================

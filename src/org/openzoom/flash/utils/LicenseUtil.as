@@ -38,59 +38,55 @@
 ////////////////////////////////////////////////////////////////////////////////
 package org.openzoom.flash.utils
 {
+    import flash.display.InteractiveObject;
+    import flash.events.ContextMenuEvent;
+    import flash.net.URLRequest;
+    import flash.net.navigateToURL;
+    import flash.ui.ContextMenu;
+    import flash.ui.ContextMenuItem;
+    
+    import org.openzoom.flash.core.openzoom_internal;
 
-import org.openzoom.flash.core.openzoom_internal;
-
-use namespace openzoom_internal;
-
-/**
- * Simple Base16 encoder/decoder.
- *
- * @see http://tools.ietf.org/html/rfc3548
- */
-public final class Base16
-{
-	include "../core/Version.as"
-
-    //--------------------------------------------------------------------------
-    //
-    //  Methods
-    //
-    //--------------------------------------------------------------------------
+    use namespace openzoom_internal;
 
     /**
-     * Returns the decoded value of the Base16 encoded String <code>value</code>.
+     * Utility for adding attribution to products built on OpenZoom SDK.
      */
-    public static function decode(value:String, ignoreCase:Boolean=false):String
+    public final class LicenseUtil
     {
-        var result:String = ""
-        var l:int = value.length
+        include "../core/Version.as"
 
-//        if (l % 2 != 0)
-//            throw new ArgumentError("Argument is not a valid Base16 encoded String.")
-
-        for (var i:int = 0; i < l; i += 2)
+        //--------------------------------------------------------------------------
+        //
+        //  Class methods
+        //
+        //--------------------------------------------------------------------------
+        /**
+         *  Adds a "About OpenZoom..." context menu item
+         *  to the context menu of the given object.
+         *  Creates a context menu if none exists.
+         */
+        public static function addAboutMenuItem(interactiveObject:InteractiveObject,
+                                                hideBuiltInItems:Boolean=true):void
         {
-            var s:int = parseInt(value.substr(i, 2), 16)
-            result += String.fromCharCode(s)
+            if (interactiveObject.contextMenu == null)
+            {
+                interactiveObject.contextMenu = new ContextMenu()
+                if (hideBuiltInItems)
+                    interactiveObject.contextMenu.hideBuiltInItems()
+            }
+
+            var item:ContextMenuItem = new ContextMenuItem("About OpenZoom...", true)
+
+            item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,
+                function(event:ContextMenuEvent):void
+                {
+                    if (event.target == item)
+                        navigateToURL(new URLRequest("http://openzoom.org"), "_blank")
+                }
+            )
+
+            interactiveObject.contextMenu.customItems.push(item)
         }
-
-        return result
     }
-
-    /**
-     * Returns the Base16 encoded String of <code>value</code>.
-     */
-    public static function encode(value:String):String
-    {
-        var result:String = ""
-        var l:int = value.length
-
-        for (var i:int = 0; i < l; i++)
-            result += value.charCodeAt(i).toString(16)
-
-        return result.toUpperCase()
-    }
-}
-
 }
